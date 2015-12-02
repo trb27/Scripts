@@ -26,30 +26,26 @@ def coordN(filename,num):
 	new1=open(num+"_C_visual_"+nombreF+".xyz",'w')
 	new.write("#\t\t x[A]\t\t y[A]\t\t z[A]\n")
 	while True:
-		try:
-			line = f.readline()
-			if not line: break
 		
-			nA=n.search(line)
-			word=palabra.match(line)
+		line = f.readline()
+		if not line: break
 		
-			if nA != None:
-				new1.writelines(nA.group(2)+"\n")
+		nA=n.search(line)
+		word=palabra.match(line)
+		
+		if nA != None:
+			new1.writelines(nA.group(2)+"\n")
 			
 			
-			if word != None:
-				#new.writelines(word.group(0)+"\n")
+		if word != None:
+			#new.writelines(word.group(0)+"\n")
+			line=f.readline()
+			aux=coord.search(line)
+			while aux != None:
+				new.write(aux.group(0)+"\n")
+				new1.writelines(aux.group(5)+"\t"+aux.group(2)+"\t"+aux.group(3)+"\t"+aux.group(4)+"\n")
 				line=f.readline()
 				aux=coord.search(line)
-				while aux != None:
-					new.write(aux.group(0)+"\n")
-					new1.writelines(aux.group(5)+"\t"+aux.group(2)+"\t"+aux.group(3)+"\t"+aux.group(4)+"\n")
-					line=f.readline()
-					aux=coord.search(line)
-				
-		except ValueError:
-			print "La coordenada deseada no existe..."
-	
 	    
 	new.close()
 	new1.close()
