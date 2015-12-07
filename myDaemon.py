@@ -167,7 +167,6 @@ class MyHandler(PatternMatchingEventHandler):
 	
 	
 	def nalewajski(self,f,nom,ruta):
-		cur = conn.cursor()
 		palabra = re.compile(r"(B\sO\sN\sD\s-\sO\sR\sD\sE\sR\s*A\sN\sA\sL\sY\sS\sI\sS)")
 		dista = re.compile(r"(\s*DIST.\s*\[A\]\s*BOND-ORDERS)")
 		thes = re.compile(r"(\s*\(THRESHOLD\s=\s*\d.\d+\s*\))")
@@ -222,7 +221,6 @@ class MyHandler(PatternMatchingEventHandler):
 			
 		new.close()
 		try:
-			
 			new=open(completeName, 'r').read()
 			binaryF = f.read()
 			cur.execute("INSERT INTO adf(archivo,titulo,fecha,convergencia,nalewajski,path) VALUES (%s,%s,%s,%s,%s,%s)", (psycopg2.Binary(binaryF),nom,fech,co,new,ruta))
@@ -237,7 +235,6 @@ class MyHandler(PatternMatchingEventHandler):
 			return(None)
 	
 	def nicsG(self,f,nom,ruta):
-		cur = conn.cursor()	
 		nics1 = re.compile(r"((\d+)\s*(Bq)\s*(Isotropic\s*=)\s*(-?\d+\.\d+)\s*(Anisotropy\s*=)\s*(-?\d+\.\d+))")		
 		conv=re.compile(r"(Normal termination of Gaussian \d+ at (\w+\s+\w+\s+\d+)\s+(\d+:\d+:\d+)\s+(\d+))")
 		c="No convergio"
@@ -270,7 +267,6 @@ class MyHandler(PatternMatchingEventHandler):
 			return(None)
 	
 	def mdpG(self,f,nom,ruta):
-		cur = conn.cursor()
 		palabra1=re.compile(r"(Molecular\sdynamics\sproduction\s:\n)")
 		tiempo=re.compile("(\*\*\s*Time\s*:\s*(\d+\.\d+)\s*ps\s*:)")
 		total_energy=re.compile("((Total energy\s*\(eV\))\s=\s*(-?\d+\.\d+)\s*(-?\d+\.\d+))")
@@ -400,8 +396,7 @@ class MyHandler(PatternMatchingEventHandler):
 		reg_file.writelines("Fecha y hora: "+time.strftime("%c")+"\n")
 		reg_file.writelines(event.src_path+"\n")
 		reg_file.writelines(event.event_type+"\n")
-		#the file will be processed there
-		#print event.src_path, event.event_type  # print now only for degug
+
 		
 	def on_moved(self, event):
 		self.process(event)
